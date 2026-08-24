@@ -31,5 +31,6 @@
 
 ## Notes
 
-- No clarifications were needed: the source document (CANDIDATE-INSTRUCTIONS.md) was explicit enough about endpoints, business rules, and behavior that reasonable defaults covered the remaining gaps (documented in the Assumptions section of spec.md — e.g., no auth in v1, UTC day boundaries for `clicksByDay`, top-referrers cutoff).
-- All checklist items pass on the first pass. Ready for `/speckit-plan` (or `/speckit-clarify` first, if the user wants to double-check the documented assumptions before planning).
+- No clarifications were needed: the source document (CANDIDATE-INSTRUCTIONS.md) was explicit enough about endpoints, business rules, and behavior that reasonable defaults covered the remaining gaps (documented in the Assumptions section of spec.md — e.g., no auth in v1, UTC day boundaries for `clicksByDay`).
+- **Revalidated 2026-08-24**: tightened the previously vague "top referrers with a reasonable cutoff" into a concrete, testable rule — top 5 distinct referrers ranked by click count descending, alphabetical tie-break, missing/empty referrer grouped as a "Direct / Unknown" bucket that ranks like any other value. Updated in Assumptions, FR-011, and User Story 3's first acceptance scenario. All checklist items still pass; still technology-agnostic (no implementation details).
+- All checklist items pass. Ready for `/speckit-plan`.
