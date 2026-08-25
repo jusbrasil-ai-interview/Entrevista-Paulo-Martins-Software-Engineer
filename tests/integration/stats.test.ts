@@ -78,5 +78,6 @@ describe("GET /api/stats/:code", () => {
     const { GET } = await import("../../app/api/stats/[code]/route");
     const res = await GET(new Request("http://localhost:3000/api/stats/nope"), paramsFor("nope"));
     expect(res.status).toBe(404);
+    expect((await res.json()).code).toBe("NOT_FOUND");
   });
 });

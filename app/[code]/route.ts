@@ -1,5 +1,6 @@
 import { recordClick } from "@/lib/clicks";
 import { getLink } from "@/lib/store";
+import { errorResponse } from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -23,12 +24,12 @@ export async function GET(
   const link = getLink(code);
 
   if (!link) {
-    return Response.json({ error: "Short link not found" }, { status: 404 });
+    return errorResponse(404, "NOT_FOUND", "Short link not found");
   }
 
   const now = new Date().toISOString();
   if (isExpired(link.expiresAt, now)) {
-    return Response.json({ error: "Short link has expired" }, { status: 410 });
+    return errorResponse(410, "EXPIRED", "Short link has expired");
   }
 
   recordClick(code, {

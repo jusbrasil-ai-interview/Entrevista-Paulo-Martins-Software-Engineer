@@ -1,5 +1,6 @@
 import { getStats } from "@/lib/clicks";
 import { getLink } from "@/lib/store";
+import { errorResponse } from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -10,7 +11,7 @@ export async function GET(
   const { code } = await params;
 
   if (!getLink(code)) {
-    return Response.json({ error: "Short link not found" }, { status: 404 });
+    return errorResponse(404, "NOT_FOUND", "Short link not found");
   }
 
   return Response.json(getStats(code), { status: 200 });

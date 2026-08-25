@@ -61,4 +61,19 @@ describe("POST /api/shorten", () => {
     const res = await POST(post({}));
     expect(res.status).toBe(400);
   });
+
+  it("includes a machine-readable error code on validation failures", async () => {
+    const { POST } = await import("../../app/api/shorten/route");
+    const res = await POST(post({ url: "ftp://example.com/file" }));
+    const json = await res.json();
+    expect(json.code).toBe("INVALID_URL");
+  });
+
+  it("rejects an unparseable expiresAt with 400", async () => {
+    const { POST } = await import("../../app/api/shorten/route");
+    const res = await POST(post({ url: "https://example.com", expiresAt: "not-a-date" }));
+    expect(res.status).toBe(400);
+    const json = await res.json();
+    expect(json.code).toBe("INVALID_EXPIRES_AT");
+  });
 });
