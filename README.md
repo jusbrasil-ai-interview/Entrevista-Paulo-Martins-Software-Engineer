@@ -4,6 +4,16 @@ Um encurtador de URLs simples: cria links curtos, redireciona através deles ras
 
 ![Página de analytics mostrando total de cliques, cliques por dia e top referrers](docs/analytics-screenshot.jpg)
 
+## O que o projeto faz
+
+1. **Cria links curtos** — `POST /api/shorten` recebe uma URL longa (`http`/`https` apenas) e devolve um código curto de 7 caracteres alfanuméricos (gerado com `nanoid`, com checagem de unicidade), opcionalmente com data de expiração.
+2. **Redireciona e rastreia cliques** — `GET /:code` redireciona (301) para a URL original. Cada acesso é registrado como um clique com referrer, user-agent, IP e timestamp. Retorna 404 se o código não existir e 410 se o link estiver expirado.
+3. **Lista todos os links** — `GET /api/urls` mostra os links criados, mais recentes primeiro, com contagem de cliques (com paginação opcional via `limit`/`offset`).
+4. **Mostra estatísticas** — `GET /api/stats/:code` devolve total de cliques, cliques por dia (últimos 30 dias) e top 5 referrers.
+5. **Página visual de analytics** — `/analytics/:code` é uma página compartilhável (sem necessidade de login) que exibe os mesmos dados de forma visual, para quem criou o link mostrar a performance dele a qualquer pessoa.
+
+Em resumo: um MVP funcional de encurtador de links com tracking de cliques e analytics visual, pensado para rodar localmente com um único comando e sem dependências externas de infraestrutura.
+
 ## Stack
 
 - **Next.js 15 (App Router) + TypeScript + React 19** — um único projeto serve tanto a API HTTP (Route Handlers) quanto a UI de analytics (um Server Component), então há apenas um dev server, um build, e nenhuma separação entre backend/frontend.
