@@ -50,6 +50,18 @@ the Next.js decision.
 
 **Alternatives considered**: A charting library (recharts/chart.js) for nicer visuals — rejected for now as unnecessary dependency weight against the time-box; could be a follow-up enhancement. A client-side SPA fetching JSON — rejected in favor of a Server Component, which avoids an extra client/server round trip and loading state for data that's already available at request time.
 
+## Decision: Client IP capture — `x-forwarded-for` / `x-real-ip` headers, fallback empty string
+
+**Rationale**: `NextRequest`/`Request` in Next.js 15 no longer exposes an `.ip` property (removed from the framework in v13.4+). The Node.js runtime Route Handler for `GET /:code` reads `request.headers.get('x-forwarded-for')` (taking the first entry when the header holds a comma-separated proxy chain) and falls back to `x-real-ip`. On `localhost` neither header is set by the browser directly, so in that case `ip` is recorded as an empty string rather than throwing — acceptable for this scope since real client-IP capture depends on a reverse proxy that isn't part of this exercise.
+
+**Alternatives considered**: Reading from the raw Node socket (`req.socket.remoteAddress`) — not reachable from a Route Handler's Web-standard `Request`; would require dropping to a custom server, rejected as unnecessary complexity for this scope.
+
+## Decision: Test data isolation — `DB_FILE_PATH` environment variable read by `lib/store.ts`
+
+**Rationale**: `lib/store.ts` reads its JSON file path from `process.env.DB_FILE_PATH`, defaulting to `data/db.json` when unset. Tests set `DB_FILE_PATH` to a per-test-run temp file (e.g., under `os.tmpdir()`) before importing the store module, and clean it up after. This keeps the store's public API free of a path parameter (callers throughout `lib/` and `app/` never pass a path) while still giving tests full isolation from the developer's real data file, satisfying quickstart.md's "tests never touch the developer's real `data/db.json`" claim with a concrete mechanism.
+
+**Alternatives considered**: Passing a path into a store constructor/factory — more testable in the abstract, but adds indirection through every call site for a single-process, singleton-store app at this scope; rejected as unnecessary ceremony for the time-box.
+
 ## Open questions
 
 None remaining — all Technical Context fields are resolved.
