@@ -59,6 +59,7 @@ describe("GET /:code", () => {
     const { GET } = await import("../../app/[code]/route");
     const res = await GET(getRequest(), paramsFor("doesNotExist"));
     expect(res.status).toBe(404);
+    expect((await res.json()).code).toBe("NOT_FOUND");
     expect(getClicks("doesNotExist")).toHaveLength(0);
   });
 
@@ -73,6 +74,7 @@ describe("GET /:code", () => {
     const { GET } = await import("../../app/[code]/route");
     const res = await GET(getRequest(), paramsFor("expired1"));
     expect(res.status).toBe(410);
+    expect((await res.json()).code).toBe("EXPIRED");
     expect(getClicks("expired1")).toHaveLength(0);
   });
 

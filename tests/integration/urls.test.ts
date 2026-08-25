@@ -58,4 +58,28 @@ describe("GET /api/urls", () => {
     const json = await res.json();
     expect(json).toEqual([]);
   });
+
+  it("supports limit/offset pagination and reports the total via X-Total-Count", async () => {
+    for (const [code, day] of [
+      ["code0001", "01"],
+      ["code0002", "02"],
+      ["code0003", "03"],
+    ] as const) {
+      createLink({
+        shortCode: code,
+        originalUrl: `https://example.com/${code}`,
+        createdAt: `2026-01-${day}T00:00:00.000Z`,
+        expiresAt: null,
+      });
+    }
+
+    const { GET } = await import("../../app/api/urls/route");
+    const res = await GET(new Request("http://localhost:3000/api/urls?limit=1&offset=1"));
+    expect(res.headers.get("X-Total-Count")).toBe("3");
+
+    const json = await res.json();
+    expect(json).toHaveLength(1);
+    // newest-first order: code0003, code0002, code0001 — offset 1 lands on code0002
+    expect(json[0].shortCode).toBe("code0002");
+  });
 });
