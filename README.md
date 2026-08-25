@@ -2,6 +2,8 @@
 
 Um encurtador de URLs simples: cria links curtos, redireciona através deles rastreando cliques, e exibe analytics (total de cliques, cliques por dia, top referrers) numa página compartilhável.
 
+![Página de analytics mostrando total de cliques, cliques por dia e top referrers](docs/analytics-screenshot.jpg)
+
 ## Stack
 
 - **Next.js 15 (App Router) + TypeScript + React 19** — um único projeto serve tanto a API HTTP (Route Handlers) quanto a UI de analytics (um Server Component), então há apenas um dev server, um build, e nenhuma separação entre backend/frontend.
