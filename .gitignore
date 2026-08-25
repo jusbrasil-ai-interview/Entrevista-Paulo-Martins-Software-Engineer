@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+
+# runtime data (file-backed store — not source)
+data/
+
+# env
+.env*.local
+
+# misc
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+
+# skill tooling artifacts (unrelated to app source)
+.agents/
+skills-lock.json

@@ -34,7 +34,7 @@ Build a Next.js (App Router) application that creates short, ~7-character alphan
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-`.specify/memory/constitution.md` is still the unfilled bootstrap template for this project (no ratified principles). No project-specific gates apply; this plan instead follows the generic engineering defaults implied by the feature spec itself (testable requirements, single-command run/test, documented assumptions). No violations to track.
+No constitution file is tracked in this repository (the Spec Kit scaffold that would have held one was removed). No project-specific gates apply; this plan instead follows the generic engineering defaults implied by the feature spec itself (testable requirements, single-command run/test, documented assumptions, a short root README covering setup/run/stack rationale, and a readable commit history). No violations to track.
 
 ## Project Structure
 
@@ -42,12 +42,12 @@ Build a Next.js (App Router) application that creates short, ~7-character alphan
 
 ```text
 specs/[###-feature]/
-├── plan.md              # This file (/speckit-plan command output)
-├── research.md          # Phase 0 output (/speckit-plan command)
-├── data-model.md        # Phase 1 output (/speckit-plan command)
-├── quickstart.md        # Phase 1 output (/speckit-plan command)
-├── contracts/           # Phase 1 output (/speckit-plan command)
-└── tasks.md             # Phase 2 output (/speckit-tasks command - NOT created by /speckit-plan)
+├── plan.md              # This file (Phase 1 planning output)
+├── research.md          # Phase 0 output
+├── data-model.md        # Phase 1 output
+├── quickstart.md        # Phase 1 output
+├── contracts/           # Phase 1 output
+└── tasks.md             # Phase 2 output (task breakdown, generated separately from this plan)
 ```
 
 ### Source Code (repository root)
